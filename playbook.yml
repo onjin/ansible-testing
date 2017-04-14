@@ -1,0 +1,13 @@
+---
+- hosts: webservers
+  remote_user: root
+  tasks:
+  - name: ensure nginx is at the latest version
+    apt: name=nginx state=latest
+    notify:
+    - restart nginx
+  - name: ensure nginx is running (and enable it at boot)
+    service: name=nginx state=started enabled=yes
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted

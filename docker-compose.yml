@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+  target:
+    image: rastasheep/ubuntu-sshd:14.04
+
+  ansible:
+    image: williamyeh/ansible:alpine3
+    command: ansible-playbook -u root -i /ansible/inventory /ansible/playbook.yml -k
+    depends_on:
+      - target
+    volumes:
+      - ${PWD}:/ansible:ro
+    environment:
+      ANSIBLE_HOST_KEY_CHECKING: 0
